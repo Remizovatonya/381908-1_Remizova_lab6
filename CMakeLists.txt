@@ -1,6 +1,6 @@
 ﻿cmake_minimum_required(VERSION 2.8) #Проверка версии CMake.
 
-set(PROJECT_NAME Lab5) #Создаем обычную локальную переменную с именем проекта
+set(PROJECT_NAME Lab6) #Создаем обычную локальную переменную с именем проекта
 project(${PROJECT_NAME}) # Название проекта
 
 set(ListLib ListLib)

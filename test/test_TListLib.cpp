@@ -1,161 +1,112 @@
-#include "Stack.h"
-
+#include "TList.h"
 #include "../gtest/gtest.h"
 
-TEST(TMultiStack, can_create_multistack)
+TEST(TestSuite, can_create_list)
 {
-    ASSERT_NO_THROW(TMultiStack<int>(1, 1));
+    ASSERT_NO_THROW(TList<int>c);
 }
 
-TEST(TStack, can_create_copied_stack)
+TEST(List, can_push_item_to_list)
 {
-    TStack<int> S(5);
-    ASSERT_NO_THROW(TStack<int> S1(S));
+    TList<int>c(10);
+    ASSERT_NO_THROW(c.InsFirst(1));
 }
 
-TEST(TStack, copied_stack_is_equal_to_source_one)
+TEST(List, can_push_item_to_list_back)
 {
-    TStack<int> S(3), S1(S);
-    EXPECT_EQ(S, S1);
+    TList<int>c(11);
+    for (int i = 0; i < 10; ++i) {
+        c.InsFirst(i);
+    }
+    ASSERT_NO_THROW(c.InsLast(1));
 }
 
-TEST(TStack, can_assign_matrix_to_itself)
+TEST(List, can_get_iterator)
 {
-    TStack<int> S(5);
-    ASSERT_NO_THROW(S = S);
+    TList<int>c(10);
+    for (int i = 0; i < 10; ++i) {
+        c.InsFirst(i);
+    }
+    ASSERT_NO_THROW(c.begin());
 }
 
-TEST(TStack, can_assign_matrices_of_equal_size)
+TEST(List, can_iterate_list)
 {
-    TStack<int> S(5), S1(5);
-    ASSERT_NO_THROW(S = S1);
+    TList<int>c(10);
+    for (int i = 0; i < 10; ++i) {
+        c.InsLast(i);
+    }
+    TList<int>::iterator iter = c.begin();
+    for (int j = 0; j < 10; ++j) {
+        EXPECT_EQ(*iter, j);
+        iter++;
+    }
 }
 
-
-TEST(TStack, can_assign_matrices_of_different_size)
+TEST(List, can_copy_list)
 {
-    TStack<int> S(5), S1(3);
-    ASSERT_NO_THROW(S = S1);
+    TList<int>c(10);
+    for (int i = 0; i < 10; ++i) {
+        c.InsLast(i);
+    }
+
+    TList<int>b = c;
+    TList<int>::iterator iter = b.begin();
+    for (int j = 0; j < 10; ++j) {
+        EXPECT_EQ(*iter, j);
+        iter++;
+    }
 }
 
-TEST(TStack, compare_equal_empty_stack_return_true)
+TEST(List, default_list_is_empty)
 {
-    TStack<int> S(5), S1(5);
-    ASSERT_EQ(S == S1, true);
+    TList<int>c(10);
+    EXPECT_EQ(c.IsEmpty(), true);
 }
 
-TEST(TStack, compare_equal_stack_with_elements_return_true)
+TEST(List, can_delete_items)
 {
-    TStack<int> S(2), S1(2);
-    S.Push(7);
-    S.Push(4);
-    S1.Push(7);
-    S1.Push(4);
-    ASSERT_EQ(S == S1, true);
+    TList<int>c(10);
+    for (int i = 0; i < 10; ++i) {
+        c.InsLast(i);
+    }
+
+    for (int j = 0; j < 10; ++j) {
+        c.DelFirst();
+    }
+    EXPECT_EQ(c.IsEmpty(), true);
 }
 
-TEST(TStack, compare_stack_with_itself_return_true)
+TEST(List, can_get_first_elem)
 {
-    TStack<int> S(5);
-    ASSERT_EQ(S == S, true);
+    TList<int>c(10);
+    for (int i = 0; i < 10; ++i) {
+        c.InsLast(i);
+    }
+    int data = c.GetFirst();
+    EXPECT_EQ(data, 0);
 }
 
-TEST(TStack, stack_with_different_size_are_not_equal)
+TEST(List, can_get_last_elem)
 {
-    TStack<int> S(5), S1(3);
-    ASSERT_EQ(S == S1, false);
+    TList<int>c(10);
+    for (int i = 0; i < 10; ++i) {
+        c.InsLast(i);
+    }
+    int data = c.GetLast();
+    EXPECT_EQ(data, 9);
 }
 
-TEST(TStack, stack_with_different_ind_are_not_equal)
+TEST(List, can_get_list_with_multiplies_to_K)
 {
-    TStack<int> S(5), S1(5);
-    S.Push(9);
-    ASSERT_EQ(S == S1, false);
+    TList<int>c(10);
+    for (int i = 0; i < 10; ++i) {
+        c.InsLast(i);
+    }
+    TList<int>b = c.multiplesToK(2);
+    TList<int>::iterator i = b.begin();
+    while (i != b.end()) {
+        EXPECT_EQ(*i % 2, 0);
+        i++;
+    }
 }
-
-TEST(TStack, stack_with_different_elements_are_not_equal)
-{
-    TStack<int> S(5), S1(5);
-    S.Push(9);
-    S1.Push(8);
-    ASSERT_EQ(S == S1, false);
-}
-
-TEST(TStack, can_push_element_in_not_full_stack)
-{
-    TStack<int> S(5);
-    ASSERT_NO_THROW(S.Push(2));
-}
-
-TEST(TStack, cant_push_element_in_full_stack)
-{
-    TStack<int> S(3);
-    S.Push(1);
-    S.Push(2);
-    S.Push(3);
-    ASSERT_ANY_THROW(S.Push(4));
-}
-
-TEST(TStack, can_get_element_of_not_empty_stack)
-{
-    TStack<int> S(5);
-    S.Push(9);
-    ASSERT_NO_THROW(S.Get());
-}
-
-TEST(TStack, cant_get_element_of_empty_stack)
-{
-    TStack<int> S(3);
-    ASSERT_ANY_THROW(S.Get());
-}
-
-TEST(TStack, get_return_element_pointed_by_ind)
-{
-    TStack<int> S(5);
-    S.Push(7);
-    S.Push(4);
-    EXPECT_EQ(4, S.Get());
-}
-
-TEST(TStack, stack_with_null_ind_is_empty_and_return_true)
-{
-    TStack<int> S(5);
-    ASSERT_EQ(S.IsEmpty(), true);
-}
-
-TEST(TStack, stack_with_not_null_ind_is_not_empty_and_return_false)
-{
-    TStack<int> S(5);
-    S.Push(9);
-    ASSERT_EQ(S.IsEmpty(), false);
-}
-
-TEST(TStack, stack_with_ind_equal_length_is_full_and_return_true)
-{
-    TStack<int> S(3);
-    S.Push(9);
-    S.Push(8);
-    S.Push(7);
-    ASSERT_EQ(S.IsFull(), true);
-}
-
-TEST(TStack, stack_with_ind_not_equal_length_is_not_full_and_return_false)
-{
-    TStack<int> S(5);
-    S.Push(9);
-    ASSERT_EQ(S.IsFull(), false);
-}
-
-TEST(TStack, can_get_length)
-{
-    TStack<int> S(5);
-    EXPECT_EQ(5, S.GetLength());
-}
-
-TEST(TStack, can_get_ind)
-{
-    TStack<int> S(5);
-    S.Push(7);
-    EXPECT_EQ(1, S.GetInd());
-}
-
