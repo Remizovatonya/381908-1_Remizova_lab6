@@ -7,7 +7,7 @@ int main()
         c.InsLast(j);
     }
     TList<int> b = c.multiplesToK(2);
-    for (auto& elem : b) {
+    for (int& elem : b) {
         std::cout << elem << std::endl;
     }
 
