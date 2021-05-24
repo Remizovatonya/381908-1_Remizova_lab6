@@ -325,7 +325,7 @@ TList<T>& TList<T>::load(const char* name) {
         throw "Cant open such file";
     int size; int count;
     file >> size; file >> count;
-    auto* list = new TList(size, count);
+    TList<int>* list = new TList(size, count);
     file >> list;
     file.close();
     return *list;
@@ -343,7 +343,7 @@ void TList<T>::save(const char* name) {
 
 template<class T>
 TList<int>& TList<T>::multiplesToK(int k) {
-    auto* c = new TList(this->size);
+    TList<int>* c = new TList(this->size);
     iterator i = this->begin();
     while (i != this->end()) {
         if (*i % k == 0) {

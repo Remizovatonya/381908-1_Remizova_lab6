@@ -6,7 +6,7 @@ int main()
     for (int j = 0; j < 5; ++j) {
         c.InsLast(j);
     }
-    auto b = c.multiplesToK(2);
+    TList<int> b = c.multiplesToK(2);
     for (auto& elem : b) {
         std::cout << elem << std::endl;
     }
