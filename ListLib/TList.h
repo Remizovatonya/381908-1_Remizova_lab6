@@ -325,7 +325,7 @@ TList<T>& TList<T>::load(const char* name) {
         throw "Cant open such file";
     int size; int count;
     file >> size; file >> count;
-    TList<int>* list = new TList(size, count);
+    char* list = new TList(size, count);
     file >> list;
     file.close();
     return *list;
